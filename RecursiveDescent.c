@@ -1,43 +1,109 @@
-int main()
+#include<stdio.h>
+#include<ctype.h>
+#include<string.h>
+#include<conio.h>
+char input[100];
+int i,l;
+void main()
 {
-	// E is a start symbol.
-	E();
-
-	// if lookahead = $, it represents the end of the string
-	// Here l is lookahead.
-	if (l == '$')
-		printf("Parsing Successful");
+printf("\nRecursive descent parsing for the following grammar\n");
+printf("\nE->TE'\nE'->+TE'/@\nT->FT'\nT'->*FT'/@\nF->(E)/ID\n");
+printf("\nEnter the string to be checked:");
+gets(input);
+if(E())
+{
+if(input[i+1]=='\0')
+printf("\nString is accepted");
+else
+printf("\nString is not accepted");
 }
-// Definition of E, as per the given production
+else
+printf("\nString not accepted");
+getch();
+}
 E()
 {
-	if (l == 'i') {
-		match('i');
-		E'();
-	}
-}
-// Definition of E' as per the given production
-E'()
+if(T())
 {
-	if (l == '+') {
-		match('+');
-		match('i');
-		E'();
-	}//The second condition of E'
-	else if ( l == 'e' )
-	{
-	match('e');
-	}
-		return ();
+if(EP())
+return(1);
+else
+return(0);
 }
-
-// Match function
-match(char t)
+else
+return(0);
+}
+EP()
 {
-	if (l == t) {
-		l = getchar();
-	}
-	else
-		printf("Error");
+if(input[i]=='+')
+{
+i++;
+if(T())
+{
+if(EP())
+return(1);
+else
+return(0);
 }
-Footer
+else
+return(0);
+}
+else
+return(1);
+}
+T()
+{
+if(F())
+{
+if(TP())
+return(1);
+else
+return(0);
+}
+else
+return(0);
+}
+TP()
+{
+if(input[i]=='*')
+{
+i++;
+if(F())
+{
+if(TP())
+return(1);
+else
+return(0);
+}
+else
+return(0);
+}
+else
+return(1);
+}
+F()
+{
+if(input[i]=='(')
+{
+i++;
+if(E())
+{
+if(input[i]==')')
+{
+i++;
+return(1);
+}
+else
+return(0);
+}
+else
+return(0);
+}
+else if(input[i]>='a'&&input[i]<='z'||input[i]>='A'&&input[i]<='Z')
+{
+i++;
+return(1);
+}
+else
+return(0);
+}
